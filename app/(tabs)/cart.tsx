@@ -6,6 +6,7 @@ import { Stack } from 'expo-router'
 import {useHeaderHeight} from "@react-navigation/elements"
 import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 type Props = {}
 
@@ -27,7 +28,9 @@ const CartScreen = (props: Props) => {
     <View style={[styles.container,{marginTop:headerHeight}]}>
       <FlatList data={cartItems} showsVerticalScrollIndicator={false} keyExtractor={(item)=>item.id.toString()}
        renderItem={({item,index})=>(
-         <CartItem item={item}/>
+        <Animated.View entering={FadeInDown.delay(300+index*100).duration(500)}>
+          <CartItem item={item}/>
+        </Animated.View>
         )}/>
     </View>
     <View style={styles.footer}>
