@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { Dimensions } from 'react-native'
+import { Link } from 'expo-router'
 
 
 type Props={
@@ -18,6 +19,8 @@ const screenWidth = Dimensions.get('window').width
 const ProductItem = ({ item, index, compact = false }: Props) => {
 
   return (
+    <Link href={`/product-details/${item.id}`} asChild>
+      <TouchableOpacity>
     <Animated.View
       entering={FadeInDown.delay(300 + index * 100).duration(500)}
       style={[styles.productContainer, compact && styles.compactContainer]}
@@ -38,6 +41,8 @@ const ProductItem = ({ item, index, compact = false }: Props) => {
       </View>
       <Text style={styles.productTitle}>{item.title}</Text>
     </Animated.View>
+    </TouchableOpacity>
+    </Link>
   );
 };
 
