@@ -1,10 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
+import { ProductType } from '@/types/type'
+import ProductItem from './ProductItem'
 
-const FlashSale = () => {
+type Props = {
+  products:ProductType[]
+}
+const FlashSale = ({products}:Props) => {
   const saleEndDate = new Date()
   // saleEndDate.setFullYear(2026,10,4)
   saleEndDate.setDate(saleEndDate.getDate()+2)
@@ -63,6 +68,17 @@ const FlashSale = () => {
           <Text style={styles.titleBtn}>See All</Text>
         </TouchableOpacity>
       </View>
+      <FlatList
+  horizontal
+  data={products}
+  keyExtractor={(item) => item.id.toString()}
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{ paddingLeft: 16, paddingRight: 8 }}
+  renderItem={({ item, index }) => (
+    <ProductItem index={index} item={item} compact />
+  )}
+/>
+
     </View>
   )
 }
@@ -72,59 +88,69 @@ export default FlashSale
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white, // Use from Colors for consistency
+    paddingVertical: 10,
+  },
+  itemImg: {
+    width: 120, // increased width
+    height: 120, // increased height
+    borderRadius: 10, // more rectangle-ish, you can adjust
+    backgroundColor: Colors.lightGray,
+  },
+  titleWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginBottom: 12,
+  },
+  titleBtn: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: Colors.primary || Colors.black,
+  },
+  timerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  timer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.highlight,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  
+  timerTxt: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: Colors.black,
+    letterSpacing: 0.4,
+  },
+  
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: Colors.black,
+    letterSpacing: 0.5,
+  },
+  item: {
+    marginVertical: 12,
+    alignItems: 'center',
+    marginLeft: 20,
+    gap: 6,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  titleWrapper:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    marginBottom:10,
-    marginHorizontal:16,
-    marginTop:6
-  },
-  title:{
-    fontSize:18,
-    fontWeight:"600",
-    letterSpacing:0.6,
-    color:Colors.black
-  },
-  titleBtn:{
-    fontSize:14,
-    fontWeight:"500",
-    letterSpacing:0.6,
-    color:Colors.black
-  },
-  itemImg:{
-    width:50,
-    height:50,
-    borderRadius:30,
-    backgroundColor:Colors.lightGray
-  },
-  item:{
-    marginVertical:10,
-    gap:5,
-    alignItems:"center",
-    marginLeft:20
-  },
-  timerWrapper:{
-    flexDirection:"row",
-    alignItems:"center",
-    gap:10
-  },
-  timerTxt:{
-    color:Colors.black,
-    fontWeight:"500"
-  },
-  timer:{
-    flexDirection:"row",
-    backgroundColor:Colors.highlight,
-    gap:5,
-    paddingHorizontal:8,
-    paddingVertical:5,
-    borderRadius:12
-  }
-})
+});
