@@ -75,7 +75,7 @@ const FlashSale = ({products}:Props) => {
   showsHorizontalScrollIndicator={false}
   contentContainerStyle={{ paddingLeft: 16, paddingRight: 8 }}
   renderItem={({ item, index }) => (
-    <ProductItem index={index} item={item} compact />
+    <ProductItem index={index} item={item} compact  productType='sale'/>
   )}
 />
 

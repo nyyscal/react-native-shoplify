@@ -8,9 +8,10 @@ import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '@/constants/Colors'
 import {useHeaderHeight} from "@react-navigation/elements"
+import Animated, { FadeInDown, SlideInDown } from 'react-native-reanimated'
 type Props ={}
 const ProductDetails = (props:Props) => {
-  const {id} = useLocalSearchParams()
+  const {id, productType} = useLocalSearchParams()
   const [product,setProduct] = useState<ProductType|null>(null)
 
   useEffect(()=>{
@@ -18,7 +19,7 @@ const ProductDetails = (props:Props) => {
   },[])
 
   const getProductDetails = async()=>{
-    const URL = `http://192.168.18.23:8000/saleProducts/${id}`
+    const URL = productType === "sale"? `http://192.168.18.23:8000/saleProducts/${id}`:`http://192.168.18.23:8000/products/${id}`
     const response = await axios.get(URL)
     // console.log(response.data)
     setProduct(response.data)
@@ -33,10 +34,10 @@ const ProductDetails = (props:Props) => {
       </TouchableOpacity>),
     headerRight:()=>(<TouchableOpacity><Ionicons name='cart-outline' size={22} color={Colors.black}/></TouchableOpacity>)}}/>
     <ScrollView style={{marginTop:headerHeight,marginBottom:90}} contentContainerStyle={{ paddingBottom: 120 }}>
-      {product && <ImageSlider imageList={product.images}/>}
+      {product && <Animated.View entering={FadeInDown.duration(500).delay(300)}><ImageSlider imageList={product.images}/></Animated.View>}
       {product && 
       <View style={styles.container}>
-        <View style={styles.ratingWrapper}>
+        <Animated.View entering={FadeInDown.duration(500).delay(500)} style={styles.ratingWrapper}>
           <View style={styles.ratingWrapper}>
           <Ionicons name='star' size={18} color={"#d4af37"}/>
           <Text style={styles.rating}>4.7
@@ -48,17 +49,17 @@ const ProductDetails = (props:Props) => {
               <Ionicons name='heart-outline' size={20} color={Colors.black}/>
             </TouchableOpacity>
           </View>
-        </View>
-          <Text style={styles.title}>{product.title}</Text>
-          <View style={styles.priceWrapper}>
+        </Animated.View>
+          <Animated.Text entering={FadeInDown.duration(500).delay(800)} style={styles.title}>{product.title}</Animated.Text>
+          <Animated.View entering={FadeInDown.duration(500).delay(1000)} style={styles.priceWrapper}>
             <Text style={styles.price}>${product.price}</Text>
             <View style={styles.priceDiscount}>
               <Text style={styles.priceDiscountTxt}>6% off</Text>
             </View>
               <Text style={styles.oldPrice}>${product.price +2}</Text>
-          </View>
-          <Text style={styles.description}>{product.description}</Text>
-          <View style={styles.productVaraiationWrapper}>
+          </Animated.View>
+          <Animated.Text entering={FadeInDown.duration(500).delay(1200)} style={styles.description}>{product.description}</Animated.Text>
+          <Animated.View entering={FadeInDown.duration(500).delay(1400)} style={styles.productVaraiationWrapper}>
             <View style={styles.productVaraiationType}>
               <Text style={styles.productVaraiationTitle}>Color</Text>
               <View style={styles.ValueWrapper}>
@@ -90,10 +91,10 @@ const ProductDetails = (props:Props) => {
               </View>
             </View>
               </View>
-          </View>
+          </Animated.View>
       </View>}
     </ScrollView>
-    <View style={styles.buttonWrapper}>
+    <Animated.View entering={SlideInDown.duration(500).delay(1400)} style={styles.buttonWrapper}>
       <TouchableOpacity style={[styles.button,{backgroundColor:Colors.primary,borderWidth:1}]}>
         <Ionicons name="cart-outline" size={20} color={Colors.white}/>
         <Text style={[styles.buttonTxt,{color:Colors.white}]}>Add to Cart</Text>
@@ -101,7 +102,7 @@ const ProductDetails = (props:Props) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonTxt}>Buy Now</Text>
         </TouchableOpacity>
-    </View>
+    </Animated.View>
     </>
   )
 }

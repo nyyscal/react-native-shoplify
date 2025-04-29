@@ -12,14 +12,17 @@ import { Link } from 'expo-router'
 type Props={
   item:ProductType,
   index:number,
-  compact:boolean
+  compact:boolean,
+  productType:"sale"|"regular"
 }
 
 const screenWidth = Dimensions.get('window').width
-const ProductItem = ({ item, index, compact = false }: Props) => {
+const ProductItem = ({ item, index, compact = false,productType }: Props) => {
 
   return (
-    <Link href={`/product-details/${item.id}`} asChild>
+    <Link href={{pathname: "/product-details/[id]",
+      params: {id:item.id, productType:productType}
+    }} asChild>
       <TouchableOpacity>
     <Animated.View
       entering={FadeInDown.delay(300 + index * 100).duration(500)}

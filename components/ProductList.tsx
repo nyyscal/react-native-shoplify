@@ -25,7 +25,7 @@ const ProductList = ({products,flatlist=true}:Props) => {
             data={products}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item,index }) => (
-              <ProductItem item={item} index={index} compact={false}/>
+              <ProductItem item={item} index={index} compact={false} productType='regular'/>
             )}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
@@ -33,7 +33,7 @@ const ProductList = ({products,flatlist=true}:Props) => {
               <View style={styles.itemsWrapper}>
                 {products.map((item,index)=>(
                   <View key={index} style={styles.productWrapper}>
-                    <ProductItem item={item} index={index} compact={false} />
+                    <ProductItem item={item} index={index} compact={false} productType='regular'/>
                   </View>
                 ))}
               </View>
