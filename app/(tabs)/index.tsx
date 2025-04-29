@@ -89,7 +89,6 @@ const HomeScreen = (props: Props) => {
       </View>
      <ProductList products={products} flatlist={false}/>
       </ScrollView>
-        
     </>
   )
 }
